@@ -1,0 +1,463 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NovaBank - Digital Banking</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        .navbar {
+            height: 70px;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            border-bottom: 1px solid #e8ecf3;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #2457e6;
+        }
+
+        .logo span {
+            color: #172033;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #2457e6;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 1250px;
+            margin: 35px auto;
+            padding: 0 25px;
+        }
+
+        .welcome {
+            margin-bottom: 25px;
+        }
+
+        .welcome h1 {
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #7b8498;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 25px;
+        }
+
+        .balance-card {
+            background: linear-gradient(135deg, #2457e6, #6b3df5);
+            color: white;
+            border-radius: 22px;
+            padding: 30px;
+            min-height: 220px;
+            box-shadow: 0 15px 35px rgba(36, 87, 230, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .balance-card::after {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.08);
+            right: -70px;
+            top: -80px;
+        }
+
+        .balance-title {
+            font-size: 15px;
+            opacity: 0.85;
+        }
+
+        .balance {
+            font-size: 42px;
+            font-weight: bold;
+            margin: 15px 0 25px;
+        }
+
+        .account-number {
+            opacity: 0.8;
+            letter-spacing: 2px;
+        }
+
+        .quick-actions {
+            background: white;
+            padding: 25px;
+            border-radius: 22px;
+            box-shadow: 0 8px 25px rgba(20, 30, 60, 0.06);
+        }
+
+        .quick-actions h3 {
+            margin-bottom: 20px;
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .action {
+            border: none;
+            background: #f1f4ff;
+            padding: 15px;
+            border-radius: 14px;
+            cursor: pointer;
+            color: #2457e6;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .action:hover {
+            background: #2457e6;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .section {
+            background: white;
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 22px;
+            box-shadow: 0 8px 25px rgba(20, 30, 60, 0.06);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .view {
+            color: #2457e6;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .transaction {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 0;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .transaction:last-child {
+            border-bottom: none;
+        }
+
+        .transaction-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .transaction-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef3ff;
+            color: #2457e6;
+            font-size: 20px;
+        }
+
+        .transaction-name {
+            font-weight: bold;
+        }
+
+        .transaction-date {
+            color: #929bad;
+            font-size: 13px;
+            margin-top: 4px;
+        }
+
+        .amount {
+            font-weight: bold;
+        }
+
+        .credit {
+            color: #13a66b;
+        }
+
+        .debit {
+            color: #e34b4b;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .bank-card {
+            padding: 25px;
+            border-radius: 20px;
+            color: white;
+            min-height: 180px;
+            background: linear-gradient(135deg, #141b2d, #303a55);
+        }
+
+        .bank-card.secondary {
+            background: linear-gradient(135deg, #2457e6, #3b82f6);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .chip {
+            width: 45px;
+            height: 32px;
+            background: #d9b65d;
+            border-radius: 7px;
+        }
+
+        .card-number {
+            margin-top: 35px;
+            letter-spacing: 3px;
+            font-size: 17px;
+        }
+
+        .card-bottom {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 13px;
+            opacity: 0.85;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px;
+            color: #929bad;
+            font-size: 13px;
+        }
+
+        @media (max-width: 800px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .balance {
+                font-size: 34px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">Nova<span>Bank</span></div>
+
+        <div class="profile">
+            <div>
+                <strong>Welcome back</strong>
+            </div>
+            <div class="avatar">SK</div>
+        </div>
+    </nav>
+
+    <main class="container">
+
+        <!-- Welcome -->
+        <div class="welcome">
+            <h1>Good Morning, Suresh 👋</h1>
+            <p>Here's your financial overview for today.</p>
+        </div>
+
+        <!-- Dashboard -->
+        <div class="dashboard">
+
+            <!-- Balance -->
+            <div class="balance-card">
+                <div class="balance-title">Available Balance</div>
+
+                <div class="balance">₹1,28,450.75</div>
+
+                <div class="account-number">
+                    Account •••• 4829
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <h3>Quick Actions</h3>
+
+                <div class="actions">
+                    <button class="action">💸 Send</button>
+                    <button class="action">📥 Receive</button>
+                    <button class="action">💳 Pay Bill</button>
+                    <button class="action">📊 Statement</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Transactions -->
+        <section class="section">
+
+            <div class="section-header">
+                <h2>Recent Transactions</h2>
+                <span class="view">View All →</span>
+            </div>
+
+            <div class="transaction">
+                <div class="transaction-left">
+                    <div class="transaction-icon">🛒</div>
+
+                    <div>
+                        <div class="transaction-name">Amazon Shopping</div>
+                        <div class="transaction-date">Today • 10:32 AM</div>
+                    </div>
+                </div>
+
+                <div class="amount debit">-₹2,499</div>
+            </div>
+
+            <div class="transaction">
+                <div class="transaction-left">
+                    <div class="transaction-icon">💰</div>
+
+                    <div>
+                        <div class="transaction-name">Salary Credit</div>
+                        <div class="transaction-date">Yesterday • 09:15 AM</div>
+                    </div>
+                </div>
+
+                <div class="amount credit">+₹75,000</div>
+            </div>
+
+            <div class="transaction">
+                <div class="transaction-left">
+                    <div class="transaction-icon">🍔</div>
+
+                    <div>
+                        <div class="transaction-name">Food Delivery</div>
+                        <div class="transaction-date">Sep 28 • 08:45 PM</div>
+                    </div>
+                </div>
+
+                <div class="amount debit">-₹650</div>
+            </div>
+
+            <div class="transaction">
+                <div class="transaction-left">
+                    <div class="transaction-icon">⚡</div>
+
+                    <div>
+                        <div class="transaction-name">Electricity Bill</div>
+                        <div class="transaction-date">Sep 27 • 06:20 PM</div>
+                    </div>
+                </div>
+
+                <div class="amount debit">-₹1,850</div>
+            </div>
+
+        </section>
+
+        <!-- Cards -->
+        <section class="section">
+
+            <div class="section-header">
+                <h2>My Cards</h2>
+                <span class="view">Manage Cards →</span>
+            </div>
+
+            <div class="cards">
+
+                <div class="bank-card">
+                    <div class="card-top">
+                        <strong>NovaBank</strong>
+                        <div class="chip"></div>
+                    </div>
+
+                    <div class="card-number">
+                        •••• •••• •••• 4829
+                    </div>
+
+                    <div class="card-bottom">
+                        <span>SURESH K</span>
+                        <span>09/29</span>
+                    </div>
+                </div>
+
+                <div class="bank-card secondary">
+                    <div class="card-top">
+                        <strong>NovaBank</strong>
+                        <div class="chip"></div>
+                    </div>
+
+                    <div class="card-number">
+                        •••• •••• •••• 7612
+                    </div>
+
+                    <div class="card-bottom">
+                        <span>SURESH K</span>
+                        <span>03/30</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <footer>
+        © 2026 NovaBank • Secure Digital Banking
+    </footer>
+
+</body>
+</html>
+```
