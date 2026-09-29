@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skyline – Book your flight</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0f1b33; --muted:#5d6b85; --line:#e3e9f3; --bg:#f3f7fd; --card:#fff;
+  --blue:#2f5bff; --blue-d:#1f43d1; --sun:#ffc93c; --mint:#12b886;
+  --r:18px;
+}
+@media (prefers-color-scheme:dark){
+  :root{--ink:#eef3ff;--muted:#9aa9c7;--line:#26365a;--bg:#0a1226;--card:#121d38;}
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:Manrope,system-ui,sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
+h1,h2,h3,.brand,.price{font-family:Sora,system-ui,sans-serif}
+button{font:inherit;cursor:pointer;border:0}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* hero */
+.hero{position:relative;padding:28px 6vw 150px;color:#fff;overflow:hidden;
+  background:linear-gradient(160deg,#1a2f8f 0%,#2f5bff 55%,#6fa0ff 100%)}
+.hero::before{content:"";position:absolute;right:-8%;top:-30%;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,201,60,.9),rgba(255,201,60,0) 65%);opacity:.55}
+.hero svg.plane{position:absolute;right:6vw;top:90px;width:min(340px,40vw);opacity:.95;
+  animation:fly 1.6s cubic-bezier(.2,.8,.2,1) both}
+@keyframes fly{from{transform:translate(120px,60px) rotate(8deg);opacity:0}}
+nav{display:flex;justify-content:space-between;align-items:center;position:relative}
+.brand{font-weight:700;font-size:1.3rem;display:flex;gap:10px;align-items:center}
+.brand i{width:30px;height:30px;border-radius:9px;background:var(--sun);display:grid;place-items:center;color:var(--ink);font-style:normal}
+nav a{color:#fff;text-decoration:none;opacity:.85;margin-left:22px;font-weight:500;font-size:.95rem}
+nav a:hover{opacity:1}
+.hero h1{position:relative;font-size:clamp(2rem,5vw,3.6rem);line-height:1.08;max-width:14ch;margin-top:60px;letter-spacing:-.02em}
+.hero p{position:relative;margin-top:14px;max-width:38ch;opacity:.9;line-height:1.55}
+
+/* search card */
+.search{position:relative;margin:-110px 6vw 0;background:var(--card);border-radius:24px;padding:22px;
+  box-shadow:0 30px 60px -20px rgba(15,27,51,.35)}
+.tabs{display:inline-flex;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:16px}
+.tabs button{padding:8px 16px;border-radius:9px;background:none;color:var(--muted);font-weight:700;font-size:.9rem}
+.tabs button[aria-pressed=true]{background:var(--card);color:var(--blue);box-shadow:0 2px 8px rgba(0,0,0,.12)}
+.grid{display:grid;grid-template-columns:1.2fr auto 1.2fr 1fr 1fr 1fr auto;gap:10px;align-items:stretch}
+.field{border:1.5px solid var(--line);border-radius:14px;padding:10px 14px;display:flex;flex-direction:column;gap:2px;background:var(--card)}
+.field:focus-within{border-color:var(--blue)}
+.field label{font-size:.75rem;color:var(--muted);font-weight:700}
+.field input,.field select{border:0;background:none;color:var(--ink);font:600 1rem Sora,sans-serif;width:100%;padding:2px 0}
+.field input:focus,.field select:focus{outline:0}
+.swap{align-self:center;width:42px;height:42px;border-radius:50%;background:var(--bg);color:var(--blue);font-size:1.2rem;transition:transform .35s}
+.swap:hover{background:var(--blue);color:#fff}
+.go{background:var(--blue);color:#fff;border-radius:14px;padding:0 26px;font-weight:700;font-size:1rem;transition:background .2s}
+.go:hover{background:var(--blue-d)}
+
+/* results */
+main{padding:34px 6vw 60px;display:grid;grid-template-columns:230px 1fr;gap:26px}
+aside{background:var(--card);border-radius:var(--r);padding:20px;height:fit-content;position:sticky;top:16px}
+aside h3{font-size:1rem;margin-bottom:14px}
+.chk{display:flex;gap:10px;align-items:center;margin:10px 0;font-size:.92rem;color:var(--muted);font-weight:500}
+.chk input{accent-color:var(--blue);width:17px;height:17px}
+.bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.bar h2{font-size:1.25rem}
+.sort{display:flex;gap:8px}
+.sort button{padding:8px 14px;border-radius:999px;background:var(--card);color:var(--muted);font-weight:700;font-size:.85rem;border:1.5px solid var(--line)}
+.sort button[aria-pressed=true]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.flight{background:var(--card);border-radius:var(--r);padding:20px 22px;margin-bottom:14px;display:grid;
+  grid-template-columns:150px 1fr 170px;gap:20px;align-items:center;border:1.5px solid transparent;transition:border-color .2s,transform .2s}
+.flight:hover{border-color:var(--blue);transform:translateY(-2px)}
+.air{display:flex;gap:12px;align-items:center}
+.logo{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;color:#fff;font:700 .9rem Sora}
+.air b{font-size:.95rem;display:block}.air small{color:var(--muted)}
+.route{display:grid;grid-template-columns:auto 1fr auto;gap:16px;align-items:center}
+.route .t{font:700 1.3rem Sora}
+.route .c{color:var(--muted);font-size:.85rem;font-weight:500}
+.path{text-align:center;color:var(--muted);font-size:.8rem;font-weight:600}
+.path div{height:2px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 12px);position:relative;margin:6px 0}
+.path div::after{content:"✈";position:absolute;left:50%;top:-10px;transform:translateX(-50%);background:var(--card);padding:0 6px;color:var(--blue)}
+.buy{text-align:right}
+.price{font-size:1.6rem;font-weight:700}
+.buy small{display:block;color:var(--muted);margin-bottom:8px}
+.book{background:var(--blue);color:#fff;padding:10px 20px;border-radius:12px;font-weight:700;width:100%}
+.book:hover{background:var(--blue-d)}
+.tag{display:inline-block;font-size:.72rem;font-weight:700;padding:3px 9px;border-radius:999px;margin-bottom:6px}
+.tag.cheap{background:var(--sun);color:#3a2a00}.tag.fast{background:#d3f9e8;color:#087f5b}
+.empty{background:var(--card);border-radius:var(--r);padding:40px;text-align:center;color:var(--muted)}
+.toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,120px);background:var(--ink);color:var(--bg);
+  padding:14px 22px;border-radius:14px;font-weight:700;transition:transform .35s;z-index:9;max-width:90vw}
+.toast.show{transform:translate(-50%,0)}
+
+@media(max-width:1000px){
+  .grid{grid-template-columns:1fr 1fr}.swap{display:none}.go{padding:16px;grid-column:1/-1}
+  main{grid-template-columns:1fr}aside{position:static;display:flex;gap:24px;flex-wrap:wrap}
+  .flight{grid-template-columns:1fr}.buy{text-align:left}.hero svg.plane{opacity:.25}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <nav>
+    <div class="brand"><i>✈</i>Skyline</div>
+    <div><a href="#">Flights</a><a href="#">Trips</a><a href="#">Deals</a><a href="#">Sign in</a></div>
+  </nav>
+  <h1>Find a flight that fits your plans</h1>
+  <p>Compare fares across airlines and book in a few taps.</p>
+  <svg class="plane" viewBox="0 0 200 200" aria-hidden="true"><g fill="#fff"><path d="M190 20c-8-8-22-4-34 8l-30 30-84-14-12 12 66 30-24 24-24-4-8 8 30 12 12 30 8-8-4-24 24-24 30 66 12-12-14-84 30-30c12-12 16-26 8-34z"/></g></svg>
+</header>
+
+<section class="search" aria-label="Search flights">
+  <div class="tabs" role="group" aria-label="Trip type">
+    <button aria-pressed="true" data-trip="Round trip">Round trip</button>
+    <button aria-pressed="false" data-trip="One way">One way</button>
+  </div>
+  <div class="grid">
+    <div class="field"><label for="from">From</label><input id="from" value="Hyderabad (HYD)" list="cities"></div>
+    <button class="swap" id="swap" aria-label="Swap origin and destination">⇄</button>
+    <div class="field"><label for="to">To</label><input id="to" value="Dubai (DXB)" list="cities"></div>
+    <div class="field"><label for="dep">Depart</label><input id="dep" type="date"></div>
+    <div class="field" id="retBox"><label for="ret">Return</label><input id="ret" type="date"></div>
+    <div class="field"><label for="pax">Travellers</label>
+      <select id="pax"><option>1 adult</option><option>2 adults</option><option>3 adults</option><option>4 adults</option></select></div>
+    <button class="go" id="search">Search flights</button>
+  </div>
+  <datalist id="cities"><option value="Hyderabad (HYD)"><option value="Delhi (DEL)"><option value="Mumbai (BOM)"><option value="Dubai (DXB)"><option value="Singapore (SIN)"><option value="London (LHR)"><option value="New York (JFK)"></datalist>
+</section>
+
+<main>
+  <aside aria-label="Filters">
+    <div>
+      <h3>Stops</h3>
+      <label class="chk"><input type="checkbox" data-stop="0" checked> Non-stop</label>
+      <label class="chk"><input type="checkbox" data-stop="1" checked> 1 stop</label>
+    </div>
+    <div>
+      <h3>Departure</h3>
+      <label class="chk"><input type="checkbox" data-time="am" checked> Before 12:00</label>
+      <label class="chk"><input type="checkbox" data-time="pm" checked> After 12:00</label>
+    </div>
+  </aside>
+  <section>
+    <div class="bar">
+      <h2 id="count">Flights</h2>
+      <div class="sort" role="group" aria-label="Sort by">
+        <button aria-pressed="true" data-sort="price">Cheapest</button>
+        <button aria-pressed="false" data-sort="dur">Fastest</button>
+        <button aria-pressed="false" data-sort="dep">Earliest</button>
+      </div>
+    </div>
+    <div id="list"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+const flights=[
+  {air:"IndiGo",code:"6E",col:"#3b3fd6",dep:"06:10",arr:"08:35",dur:225,stops:0,price:14850},
+  {air:"Emirates",code:"EK",col:"#d6262d",dep:"09:45",arr:"12:20",dur:215,stops:0,price:21400},
+  {air:"Air India",code:"AI",col:"#e0552b",dep:"13:30",arr:"18:40",dur:340,stops:1,price:12990},
+  {air:"flydubai",code:"FZ",col:"#0a7abf",dep:"16:20",arr:"18:55",dur:215,stops:0,price:16200},
+  {air:"Etihad",code:"EY",col:"#b28a3c",dep:"21:05",arr:"03:10",dur:395,stops:1,price:13780}
+];
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+let sort="price", trip="Round trip";
+const fmt=n=>"₹"+n.toLocaleString("en-IN");
+const dur=m=>Math.floor(m/60)+"h "+String(m%60).padStart(2,"0")+"m";
+
+// default dates
+const d=new Date(); const iso=x=>x.toISOString().slice(0,10);
+const a=new Date(d);a.setDate(a.getDate()+14);const b=new Date(a);b.setDate(b.getDate()+7);
+$("#dep").value=iso(a);$("#ret").value=iso(b);$("#dep").min=iso(d);
+
+function render(){
+  const stops=$$("[data-stop]:checked").map(x=>+x.dataset.stop);
+  const times=$$("[data-time]:checked").map(x=>x.dataset.time);
+  let r=flights.filter(f=>stops.includes(f.stops)&&times.includes(+f.dep.slice(0,2)<12?"am":"pm"));
+  r.sort((x,y)=>sort==="price"?x.price-y.price:sort==="dur"?x.dur-y.dur:x.dep.localeCompare(y.dep));
+  const cheap=Math.min(...flights.map(f=>f.price)), fast=Math.min(...flights.map(f=>f.dur));
+  const from=$("#from").value.match(/\((.*)\)/)?.[1]||"FROM", to=$("#to").value.match(/\((.*)\)/)?.[1]||"TO";
+  $("#count").textContent=r.length+(r.length===1?" flight":" flights")+" · "+from+" to "+to;
+  $("#list").innerHTML=r.length?r.map((f,i)=>`
+    <article class="flight">
+      <div class="air"><div class="logo" style="background:${f.col}">${f.code}</div><div><b>${f.air}</b><small>Economy</small></div></div>
+      <div class="route">
+        <div><div class="t">${f.dep}</div><div class="c">${from}</div></div>
+        <div class="path">${dur(f.dur)}<div></div>${f.stops?"1 stop":"Non-stop"}</div>
+        <div style="text-align:right"><div class="t">${f.arr}</div><div class="c">${to}</div></div>
+      </div>
+      <div class="buy">
+        ${f.price===cheap?'<span class="tag cheap">Cheapest</span> ':''}${f.dur===fast?'<span class="tag fast">Fastest</span>':''}
+        <div class="price">${fmt(f.price)}</div><small>per traveller</small>
+        <button class="book" data-i="${flights.indexOf(f)}">Select flight</button>
+      </div>
+    </article>`).join(""):'<div class="empty">No flights match these filters. Turn on more stops or departure times.</div>';
+}
+
+$$(".sort button").forEach(btn=>btn.onclick=()=>{sort=btn.dataset.sort;$$(".sort button").forEach(x=>x.setAttribute("aria-pressed",x===btn));render()});
+$$(".tabs button").forEach(btn=>btn.onclick=()=>{trip=btn.dataset.trip;$$(".tabs button").forEach(x=>x.setAttribute("aria-pressed",x===btn));$("#retBox").style.display=trip==="One way"?"none":""});
+$$("aside input").forEach(x=>x.onchange=render);
+$("#search").onclick=render;
+$("#swap").onclick=e=>{const f=$("#from"),t=$("#to");[f.value,t.value]=[t.value,f.value];e.currentTarget.style.transform="rotate(180deg)";setTimeout(()=>e.target.style.transform="",350);render()};
+$("#list").onclick=e=>{const btn=e.target.closest(".book");if(!btn)return;const f=flights[btn.dataset.i];
+  const t=$("#toast");t.textContent=f.air+" "+f.dep+" selected · "+fmt(f.price)+" · "+trip;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),2600)};
+render();
+</script>
+</body>
+</html>
